@@ -10,21 +10,51 @@ const Sample: React.SFC<SampleProps> = (props) => {
         }
     }
 
+
+
     const [person, setPerson] = React.useState(initialPerson);
+    const [count, setCount] = React.useState(0);
+
+    React.useEffect(() => {
+        console.log('useEffect');
+
+        return () => console.log('will Unmount');
+    }, []);
+
+    React.useEffect(() => {
+        console.log('useEffect for count');
+
+        return () => console.log('done for count');
+    }, [count]);
+
+    React.useEffect(() => {
+        console.log('useEffect for everything1');
+    });
+
+    React.useEffect(() => {
+        console.log('useEffect for everything2');
+    });
+
+    React.useEffect(() => {
+        console.log('useEffect for everything3');
+    });
+
 
     const increment = () => {
-        setPerson(prev => {
-            console.log('setPerson', prev)
-            return prev;
-        });
+        setCount(count + 1);
+    }
+
+    const changeName = () => {
+        setPerson({ ...person })
     }
 
     console.log('Sample renders')
     return (
         <>
-            <h4>Sample Component! {person.name}</h4>
+            <h4>Sample Component! {person.name} {count}</h4>
 
             <button onClick={increment}>Increment</button>
+            <button onClick={changeName}>Change Person</button>
         </>
     );
 };
