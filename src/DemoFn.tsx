@@ -1,14 +1,18 @@
 import * as React from 'react';
-import { AppTheme } from './Sample';
+import { useAppTheme, useSetAppTheme } from './AppTheme';
 
 export interface DemoFnProps {}
 
 const DemoFn: React.SFC<DemoFnProps> = () => {
-  const theme = React.useContext(AppTheme);
+  const theme = useAppTheme();
+  const toggleTheme = useSetAppTheme();
 
   return (
     <>
       <h3>Demo Function component: {theme}</h3>
+      <hr />
+
+      <button onClick={toggleTheme}>Toggle Theme</button>
     </>
   );
 };
