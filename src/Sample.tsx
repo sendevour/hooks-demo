@@ -1,20 +1,41 @@
 import * as React from 'react';
-import { useToggle } from './ToggleHook';
 
 export interface SampleProps {}
 
-const Sample: React.SFC<SampleProps> = (props) => {
-  const [status, changeStatus] = useToggle(false);
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case 'add':
+      return [...state, action.payload];
+    case 'remove':
+      return [
+        ...state.slice(0, action.index),
+        ...state.slice(action.index + 1),
+      ];
+    default:
+      throw new Error();
+  }
+};
 
-  const toggle = () => {
-    changeStatus();
-  };
+const Sample: React.SFC<SampleProps> = (props) => {
+  const [state, dispatch] = React.useReducer(reducer, [
+    'Mumbai',
+    'Bengaluru',
+    'Delhi',
+  ]);
 
   return (
     <>
-      <h4>Sample Component: Status: {status ? 'ON' : 'OFF'}</h4>
+      <h4>Sample Component</h4>
 
-      <button onClick={toggle}>Change Status</button>
+      <ul>
+        {state.map((c, i) => {
+          return <li key={i}>{c}</li>;
+        })}
+      </ul>
+
+      <button onClick={() => dispatch({ type: 'add', payload: 'Ahmadabad' })}>
+        Add City
+      </button>
     </>
   );
 };
